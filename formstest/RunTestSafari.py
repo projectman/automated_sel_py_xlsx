@@ -34,6 +34,19 @@ class RunTestSafari:
         """
         # find the field with rXpath and click it.
         driver.find_element(By.XPATH, test_data[0]).click()
+        time.sleep(3)
+        # debug print("incoming data: ", test_data)
+
+    def submit_it(self, driver, test_data):
+        """
+        Execute finding field and click submit this field.
+        """
+        # find the field with rXpath, fill field and submit.
+        element = driver.find_element(By.XPATH, test_data[0])
+        element.clear()
+        element.send_keys(test_data[1])
+        element.submit()
+        time.sleep(3)
         # debug print("incoming data: ", test_data)
 
     def find_it(self, driver, test_data):
@@ -50,7 +63,7 @@ class RunTestSafari:
         elif test_data[0] == "NOT" and test_data[1] not in driver.page_source:
             print('Text "%s" does not exist on page as it must be.' % test_data[1])
         else:
-            print("Some unelectable data in 'find_in' func.")
+            print("Some non-selectable data in 'find_in' func.")
 
     def make_test(self, row):
         """
@@ -79,6 +92,8 @@ class RunTestSafari:
                 self.click_it(driver, row[curr_segment + 1:curr_segment + 3])
             elif row[curr_segment] == 'FIND':
                 self.find_it(driver, row[curr_segment + 1:curr_segment + 3])
+            elif row[curr_segment] == 'SBMT':
+                self.submit_it(driver, row[curr_segment + 1:curr_segment + 3])
             else:
                 print("Not defined operator of action!")
 
